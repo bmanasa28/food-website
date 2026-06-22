@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tasty Bites 🍔 — Order Food Online</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- ===== Header ===== -->
+  <header class="header">
+    <div class="logo">🍔 Tasty Bites</div>
+    <button id="cart-toggle" class="cart-toggle">
+      🛒 Cart <span id="cart-count" class="cart-count">0</span>
+    </button>
+  </header>
+
+  <!-- ===== Hero banner ===== -->
+  <section class="hero">
+    <h1>Delicious food, delivered fast</h1>
+    <p>Order your favorites in just a few clicks.</p>
+  </section>
+
+  <!-- ===== Menu ===== -->
+  <main class="menu" id="menu">
+    <h2>Our Menu</h2>
+    <div class="menu-grid" id="menu-grid">
+      <!-- Food cards get inserted here by script.js -->
+    </div>
+  </main>
+
+  <!-- ===== Cart sidebar ===== -->
+  <aside class="cart" id="cart">
+    <div class="cart-header">
+      <h2>Your Order</h2>
+      <button id="cart-close" class="cart-close">✕</button>
+    </div>
+    <ul class="cart-items" id="cart-items">
+      <li class="cart-empty">Your cart is empty 🛒</li>
+    </ul>
+    <div class="cart-footer">
+      <div class="cart-total">Total: <span id="cart-total">$0.00</span></div>
+      <button id="place-order" class="place-order">Place Order</button>
+    </div>
+  </aside>
+  <div class="overlay" id="overlay"></div>
+
+  <footer class="footer">
+    <p>Made with ❤️ for my internship · Tasty Bites Demo</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
