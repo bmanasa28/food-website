@@ -45,10 +45,11 @@ const categoryIcons = {
 // Dishes shown in the "Featured Dishes" section (the highest-rated picks)
 const featuredIds = [1, 3, 7, 13];
 
-// Shared card markup, reused by the menu and featured sections
+// Shared card markup, reused by the menu and featured sections.
+// Clicking the card opens its details page; the Add button is exempt.
 function cardHTML(item) {
   return `
-    <div class="card">
+    <div class="card" onclick="location.href='details.html?id=${item.id}'">
       <div class="card-img-wrap">
         <img class="card-img" src="${imageURL(item)}" alt="${item.name}" loading="lazy"
              onerror="this.parentElement.innerHTML='<span class=&quot;emoji-fallback&quot;>${item.emoji}</span>'">
@@ -65,10 +66,15 @@ function cardHTML(item) {
         </div>
         <div class="card-foot">
           <div class="price">$${item.price.toFixed(2)}</div>
-          <button class="add-btn" onclick="addToCart(${item.id})">Add +</button>
+          <button class="add-btn" onclick="event.stopPropagation(); addToCart(${item.id})">Add +</button>
         </div>
       </div>
     </div>`;
+}
+
+// Larger image for the details page
+function detailImageURL(item) {
+  return `https://images.unsplash.com/${item.img}?w=800&h=600&fit=crop&crop=entropy&auto=format&q=80`;
 }
 
 // ===== State =====
@@ -148,6 +154,78 @@ function renderMenu() {
     const browsingAll = activeCategory === "All" && searchTerm.trim() === "";
     featuredSection.style.display = browsingAll ? "" : "none";
   }
+}
+
+// ===================================================================
+// FOOD DETAILS PAGE (details.html?id=…)
+// ===================================================================
+const detailContainer = document.getElementById("detail-container");
+let detailQty = 1;
+let detailItem = null;
+
+function renderDetails() {
+  if (!detailContainer) return;
+  const id = Number(new URLSearchParams(location.search).get("id"));
+  detailItem = menuItems.find(m => m.id === id);
+
+  if (!detailItem) {
+    detailContainer.innerHTML = `
+      <div class="detail-missing">
+        <h2>Dish not found 😕</h2>
+        <p>We couldn't find that item.</p>
+        <a class="view-all-btn" href="menu.html">← Back to Menu</a>
+      </div>`;
+    return;
+  }
+
+  const item = detailItem;
+  document.title = `${item.name} · Tasty Bites`;
+  detailContainer.innerHTML = `
+    <a class="back-link" href="menu.html">← Back to Menu</a>
+    <div class="detail-card">
+      <div class="detail-img-wrap">
+        <img src="${detailImageURL(item)}" alt="${item.name}"
+             onerror="this.parentElement.innerHTML='<span class=&quot;emoji-fallback&quot;>${item.emoji}</span>'">
+        <span class="veg-badge ${item.veg ? "veg" : "nonveg"}" title="${item.veg ? "Veg" : "Non-veg"}"></span>
+      </div>
+      <div class="detail-info">
+        <span class="detail-cat">${categoryIcons[item.category] || "🍴"} ${item.category}</span>
+        <h1>${item.name}</h1>
+        <div class="detail-meta">
+          <span>⭐ ${ratingFor(item)}</span>
+          <span>⏱ ${deliveryFor(item)}</span>
+          <span class="veg-label ${item.veg ? "veg" : "nonveg"}">${item.veg ? "🟢 Veg" : "🔴 Non-veg"}</span>
+        </div>
+        <p class="detail-desc">${item.desc}</p>
+        <div class="detail-price">$${item.price.toFixed(2)}</div>
+        <div class="qty-row">
+          <button onclick="detailQtyChange(-1)">−</button>
+          <span id="detail-qty">${detailQty}</span>
+          <button onclick="detailQtyChange(1)">+</button>
+        </div>
+        <button class="add-btn detail-add" onclick="detailAddToCart()">Add ${detailQty} to Cart 🛒</button>
+      </div>
+    </div>`;
+}
+
+function detailQtyChange(delta) {
+  detailQty = Math.max(1, detailQty + delta);
+  const qtyEl = document.getElementById("detail-qty");
+  const addBtn = document.querySelector(".detail-add");
+  if (qtyEl) qtyEl.textContent = detailQty;
+  if (addBtn) addBtn.textContent = `Add ${detailQty} to Cart 🛒`;
+}
+
+function detailAddToCart() {
+  if (!detailItem) return;
+  if (!cart[detailItem.id]) cart[detailItem.id] = { item: detailItem, qty: 0 };
+  cart[detailItem.id].qty += detailQty;
+  saveCart();
+  renderCart();
+  openCart();
+  showToast(`🛒 Added ${detailQty} × ${detailItem.name} to your cart!`);
+  detailQty = 1;
+  detailQtyChange(0); // refresh button label
 }
 
 // ===================================================================
@@ -348,5 +426,6 @@ applyTheme(localStorage.getItem("tastyBitesTheme") || "light");
 renderCategories();
 renderFeatured();
 renderMenu();
+renderDetails();
 renderCart();
 setupReveal();

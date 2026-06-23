@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dish Details · Tasty Bites 🍔</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="details-page">
+  <!-- ===== Header ===== -->
+  <header class="header">
+    <div class="logo">🍔 Tasty&nbsp;Bites</div>
+    <nav class="nav-links">
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+    </nav>
+    <div class="header-actions">
+      <button id="theme-toggle" class="theme-toggle" title="Toggle dark mode">🌙</button>
+      <button id="cart-toggle" class="cart-toggle">
+        🛒 <span class="cart-label">Cart</span> <span id="cart-count" class="cart-count">0</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ===== Food details (filled by script.js from ?id=) ===== -->
+  <main class="detail-wrap" id="detail-container"></main>
+
+  <!-- ===== Cart sidebar ===== -->
+  <aside class="cart" id="cart">
+    <div class="cart-header">
+      <h2>Your Order</h2>
+      <button id="cart-close" class="cart-close">✕</button>
+    </div>
+    <ul class="cart-items" id="cart-items">
+      <li class="cart-empty">Your cart is empty 🛒</li>
+    </ul>
+    <div class="cart-footer">
+      <div class="cart-total">Total: <span id="cart-total">$0.00</span></div>
+      <button id="checkout-btn" class="place-order" disabled>Checkout</button>
+    </div>
+  </aside>
+
+  <!-- ===== Checkout modal ===== -->
+  <div class="modal" id="checkout-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2>Checkout</h2>
+        <button id="modal-close" class="cart-close">✕</button>
+      </div>
+      <form id="checkout-form" class="checkout-form">
+        <label>Full Name<input type="text" id="cust-name" required placeholder="manasa" /></label>
+        <label>Phone Number<input type="tel" id="cust-phone" required placeholder="9876543210" pattern="[0-9 +\-]{7,15}" title="Enter a valid phone number" /></label>
+        <label>Delivery Address<textarea id="cust-address" required rows="3" placeholder="House no, street, city"></textarea></label>
+        <div class="order-summary" id="order-summary"></div>
+        <button type="submit" class="place-order">Place Order ✅</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="overlay" id="overlay"></div>
+  <div class="toast" id="toast" hidden></div>
+
+  <footer class="footer footer-slim">
+    <div class="logo">🍔 Tasty Bites</div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="menu.html">Menu</a>
+    </div>
+    <p class="footer-bottom">Made with ❤️ by manasa · 2026</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

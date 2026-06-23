@@ -337,6 +337,78 @@ a.cat-btn { text-decoration: none; }
 .menu-main { padding-top: 1.5rem; padding-bottom: 3rem; min-height: 50vh; }
 
 /* =====================================================================
+   FOOD DETAILS PAGE
+   ===================================================================== */
+.detail-wrap { max-width: 1000px; margin: 0 auto; padding: 2rem 5% 1rem; min-height: 60vh; }
+.back-link {
+  display: inline-block;
+  margin-bottom: 1.4rem;
+  color: var(--brand);
+  text-decoration: none;
+  font-weight: 600;
+}
+.back-link:hover { text-decoration: underline; }
+
+.detail-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  background: var(--surface);
+  border-radius: 24px;
+  padding: 1.4rem;
+  box-shadow: 0 14px 40px var(--shadow);
+}
+.detail-img-wrap {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  min-height: 320px;
+  background: var(--grad);
+  display: flex; align-items: center; justify-content: center;
+}
+.detail-img-wrap img { width: 100%; height: 100%; object-fit: cover; }
+
+.detail-info { display: flex; flex-direction: column; padding: 0.6rem 0.6rem 0.6rem 0; }
+.detail-cat {
+  align-self: flex-start;
+  background: var(--grad-soft);
+  color: var(--brand);
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 0.8rem;
+}
+.detail-info h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; margin-bottom: 0.7rem; }
+.detail-meta { display: flex; flex-wrap: wrap; gap: 1.2rem; color: var(--muted); font-weight: 500; margin-bottom: 1.1rem; }
+.veg-label.veg { color: #2b9348; }
+.veg-label.nonveg { color: #c0392b; }
+.detail-desc { color: var(--muted); font-size: 1.05rem; line-height: 1.7; margin-bottom: 1.4rem; }
+.detail-price { font-size: 2.2rem; font-weight: 800; color: var(--brand); margin-bottom: 1.3rem; }
+
+.qty-row { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.4rem; }
+.qty-row button {
+  width: 44px; height: 44px;
+  border: 1px solid var(--border);
+  background: var(--bg); color: var(--text);
+  border-radius: 12px; cursor: pointer; font-size: 1.4rem; font-weight: 700;
+  transition: background 0.2s;
+}
+.qty-row button:hover { background: var(--grad-soft); }
+.qty-row #detail-qty { font-size: 1.3rem; font-weight: 700; min-width: 2rem; text-align: center; }
+
+.detail-add { align-self: flex-start; padding: 0.9rem 2.2rem; font-size: 1.05rem; }
+
+.detail-missing { text-align: center; padding: 4rem 1rem; }
+.detail-missing h2 { margin-bottom: 0.6rem; }
+.detail-missing p { color: var(--muted); margin-bottom: 1.5rem; }
+
+@media (max-width: 720px) {
+  .detail-card { grid-template-columns: 1fr; gap: 1.4rem; }
+  .detail-img-wrap { min-height: 240px; }
+}
+
+/* =====================================================================
    SLIM FOOTER
    ===================================================================== */
 .footer-slim {
@@ -369,6 +441,7 @@ a.cat-btn { text-decoration: none; }
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
 }
 .card:hover {
   transform: translateY(-10px);
