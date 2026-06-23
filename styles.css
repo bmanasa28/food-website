@@ -55,7 +55,9 @@ body {
   width: 40px; height: 40px;
   border-radius: 50%;
   cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
+.theme-toggle:hover { background: rgba(255, 255, 255, 0.45); transform: rotate(20deg) scale(1.1); }
 
 .cart-toggle {
   background: #fff;
@@ -66,7 +68,9 @@ body {
   font-weight: 600;
   font-size: 1rem;
   cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
 }
+.cart-toggle:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2); }
 .cart-count {
   background: #2b2b2b;
   color: #fff;
@@ -109,7 +113,9 @@ body {
   cursor: pointer;
   font-size: 0.9rem;
   font-weight: 600;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
 }
+.cat-btn:hover { border-color: var(--brand); color: var(--brand); transform: translateY(-2px); }
 .cat-btn.active { background: var(--brand); color: #fff; border-color: var(--brand); }
 
 /* ===== Menu ===== */
@@ -122,14 +128,41 @@ body {
 .card {
   background: var(--surface);
   border-radius: 16px;
-  padding: 1.2rem;
+  overflow: hidden;                 /* keeps the zoomed image inside rounded corners */
   text-align: center;
   box-shadow: 0 4px 12px var(--shadow);
-  transition: transform 0.15s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.card:hover { transform: translateY(-4px); }
-.card .emoji { font-size: 3rem; }
-.card h3 { margin: 0.6rem 0 0.3rem; font-size: 1.15rem; }
+/* Card hover: lift up + stronger shadow */
+.card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 14px 30px var(--shadow);
+}
+
+/* Image area */
+.card-img-wrap {
+  width: 100%;
+  height: 170px;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;                /* fills the area without stretching */
+  transition: transform 0.4s ease;
+}
+/* Image zoom on card hover */
+.card:hover .card-img { transform: scale(1.12); }
+
+/* Emoji fallback (shown if the photo fails to load) */
+.emoji-fallback { font-size: 4rem; }
+
+.card-body { padding: 1.2rem; }
+.card h3 { margin: 0.2rem 0 0.3rem; font-size: 1.15rem; }
 .card .desc { color: var(--muted); font-size: 0.9rem; min-height: 2.4em; }
 .card .price { font-weight: 700; color: var(--brand); font-size: 1.2rem; margin: 0.5rem 0; }
 
@@ -137,13 +170,20 @@ body {
   background: var(--brand);
   color: #fff;
   border: none;
-  padding: 0.55rem 1.2rem;
+  padding: 0.6rem 1.2rem;
   border-radius: 999px;
   font-weight: 600;
   cursor: pointer;
   width: 100%;
+  transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
 }
-.add-btn:hover { background: var(--brand-dark); }
+/* Button hover: darken + lift + glow */
+.add-btn:hover {
+  background: var(--brand-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px var(--shadow);
+}
+.add-btn:active { transform: translateY(0); }
 
 .no-results { text-align: center; color: var(--muted); padding: 2rem; font-size: 1.1rem; }
 

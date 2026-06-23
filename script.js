@@ -1,22 +1,28 @@
-// ===== Menu data (now with categories!) =====
+// ===== Menu data (with categories + image keywords) =====
 const menuItems = [
-  { id: 1,  name: "Classic Burger",   desc: "Juicy beef patty, cheese & lettuce", price: 8.99,  emoji: "🍔", category: "Burgers" },
-  { id: 2,  name: "Chicken Burger",   desc: "Crispy chicken with mayo",           price: 7.99,  emoji: "🍔", category: "Burgers" },
-  { id: 3,  name: "Margherita Pizza", desc: "Fresh tomato, basil & mozzarella",   price: 11.50, emoji: "🍕", category: "Pizza"   },
-  { id: 4,  name: "Pepperoni Pizza",  desc: "Loaded with spicy pepperoni",        price: 13.00, emoji: "🍕", category: "Pizza"   },
-  { id: 5,  name: "Crispy Fries",     desc: "Golden, salted & served hot",        price: 3.99,  emoji: "🍟", category: "Sides"   },
-  { id: 6,  name: "Onion Rings",      desc: "Crunchy battered onion rings",       price: 4.49,  emoji: "🧅", category: "Sides"   },
-  { id: 7,  name: "Sushi Platter",    desc: "Assorted fresh nigiri & rolls",      price: 14.00, emoji: "🍣", category: "Sushi"   },
-  { id: 8,  name: "Taco Trio",        desc: "Three soft tacos, your choice",      price: 7.49,  emoji: "🌮", category: "Mexican" },
-  { id: 9,  name: "Burrito",          desc: "Stuffed with rice, beans & salsa",   price: 8.49,  emoji: "🌯", category: "Mexican" },
-  { id: 10, name: "Pasta Bowl",       desc: "Creamy alfredo with herbs",          price: 9.99,  emoji: "🍝", category: "Pasta"   },
-  { id: 11, name: "Fresh Salad",      desc: "Garden greens with dressing",        price: 6.50,  emoji: "🥗", category: "Salads"  },
-  { id: 12, name: "Ice Cream",        desc: "Two scoops, choose your flavor",     price: 4.25,  emoji: "🍦", category: "Desserts"},
-  { id: 13, name: "Chocolate Cake",   desc: "Rich, moist chocolate slice",        price: 5.50,  emoji: "🍰", category: "Desserts"},
-  { id: 14, name: "Cola",             desc: "Chilled fizzy drink",                price: 1.99,  emoji: "🥤", category: "Drinks"  },
-  { id: 15, name: "Fresh Juice",      desc: "Orange, apple or mango",             price: 2.99,  emoji: "🧃", category: "Drinks"  },
-  { id: 16, name: "Coffee",           desc: "Freshly brewed hot coffee",          price: 2.49,  emoji: "☕", category: "Drinks"  },
+  { id: 1,  name: "Classic Burger",   desc: "Juicy beef patty, cheese & lettuce", price: 8.99,  emoji: "🍔", category: "Burgers",  query: "burger" },
+  { id: 2,  name: "Chicken Burger",   desc: "Crispy chicken with mayo",           price: 7.99,  emoji: "🍔", category: "Burgers",  query: "chickenburger" },
+  { id: 3,  name: "Margherita Pizza", desc: "Fresh tomato, basil & mozzarella",   price: 11.50, emoji: "🍕", category: "Pizza",    query: "pizza" },
+  { id: 4,  name: "Pepperoni Pizza",  desc: "Loaded with spicy pepperoni",        price: 13.00, emoji: "🍕", category: "Pizza",    query: "pepperoni,pizza" },
+  { id: 5,  name: "Crispy Fries",     desc: "Golden, salted & served hot",        price: 3.99,  emoji: "🍟", category: "Sides",    query: "fries" },
+  { id: 6,  name: "Onion Rings",      desc: "Crunchy battered onion rings",       price: 4.49,  emoji: "🧅", category: "Sides",    query: "onionrings" },
+  { id: 7,  name: "Sushi Platter",    desc: "Assorted fresh nigiri & rolls",      price: 14.00, emoji: "🍣", category: "Sushi",    query: "sushi" },
+  { id: 8,  name: "Taco Trio",        desc: "Three soft tacos, your choice",      price: 7.49,  emoji: "🌮", category: "Mexican",  query: "tacos" },
+  { id: 9,  name: "Burrito",          desc: "Stuffed with rice, beans & salsa",   price: 8.49,  emoji: "🌯", category: "Mexican",  query: "burrito" },
+  { id: 10, name: "Pasta Bowl",       desc: "Creamy alfredo with herbs",          price: 9.99,  emoji: "🍝", category: "Pasta",    query: "pasta" },
+  { id: 11, name: "Fresh Salad",      desc: "Garden greens with dressing",        price: 6.50,  emoji: "🥗", category: "Salads",   query: "salad" },
+  { id: 12, name: "Ice Cream",        desc: "Two scoops, choose your flavor",     price: 4.25,  emoji: "🍦", category: "Desserts", query: "icecream" },
+  { id: 13, name: "Chocolate Cake",   desc: "Rich, moist chocolate slice",        price: 5.50,  emoji: "🍰", category: "Desserts", query: "chocolatecake" },
+  { id: 14, name: "Cola",             desc: "Chilled fizzy drink",                price: 1.99,  emoji: "🥤", category: "Drinks",   query: "cola,soda" },
+  { id: 15, name: "Fresh Juice",      desc: "Orange, apple or mango",             price: 2.99,  emoji: "🧃", category: "Drinks",   query: "juice" },
+  { id: 16, name: "Coffee",           desc: "Freshly brewed hot coffee",          price: 2.49,  emoji: "☕", category: "Drinks",   query: "coffee" },
 ];
+
+// Build a food photo URL for a dish (free keyword-based image service).
+// The `lock` keeps each dish showing the SAME photo every time it loads.
+function imageURL(item) {
+  return `https://loremflickr.com/320/240/${item.query}?lock=${item.id}`;
+}
 
 // ===== State =====
 let cart = loadCart();          // { id: { item, qty } } — loaded from localStorage
@@ -66,11 +72,16 @@ function renderMenu() {
 
   menuGrid.innerHTML = filtered.map(item => `
     <div class="card">
-      <div class="emoji">${item.emoji}</div>
-      <h3>${item.name}</h3>
-      <p class="desc">${item.desc}</p>
-      <div class="price">$${item.price.toFixed(2)}</div>
-      <button class="add-btn" onclick="addToCart(${item.id})">Add to Cart</button>
+      <div class="card-img-wrap">
+        <img class="card-img" src="${imageURL(item)}" alt="${item.name}" loading="lazy"
+             onerror="this.parentElement.innerHTML='<span class=&quot;emoji-fallback&quot;>${item.emoji}</span>'">
+      </div>
+      <div class="card-body">
+        <h3>${item.name}</h3>
+        <p class="desc">${item.desc}</p>
+        <div class="price">$${item.price.toFixed(2)}</div>
+        <button class="add-btn" onclick="addToCart(${item.id})">Add to Cart</button>
+      </div>
     </div>
   `).join("");
 }
