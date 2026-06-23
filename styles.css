@@ -317,6 +317,24 @@ h1, h2, h3, h4 { line-height: 1.2; }
   backdrop-filter: blur(2px);
 }
 
+/* Veg / Non-veg marker (Swiggy/Zomato style square + dot) */
+.veg-badge {
+  position: absolute;
+  top: 10px; right: 10px;
+  width: 22px; height: 22px;
+  background: #fff;
+  border: 2px solid;
+  border-radius: 5px;
+  box-sizing: border-box;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+.veg-badge::after { content: ""; width: 10px; height: 10px; border-radius: 50%; }
+.veg-badge.veg { border-color: #2b9348; }
+.veg-badge.veg::after { background: #2b9348; }
+.veg-badge.nonveg { border-color: #c0392b; }
+.veg-badge.nonveg::after { background: #c0392b; }
+
 .card-body { padding: 1.1rem 1.2rem 1.3rem; display: flex; flex-direction: column; gap: 0.35rem; flex: 1; }
 .card h3 { font-size: 1.12rem; font-weight: 600; }
 .card .desc { color: var(--muted); font-size: 0.88rem; min-height: 2.4em; }

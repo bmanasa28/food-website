@@ -1,21 +1,21 @@
 // ===== Menu data (categories + hand-picked, verified Unsplash photo IDs) =====
 const menuItems = [
-  { id: 1,  name: "Classic Burger",   desc: "Juicy beef patty, cheese & lettuce", price: 8.99,  emoji: "🍔", category: "Burgers",  img: "photo-1568901346375-23c9450c58cd" },
-  { id: 2,  name: "Chicken Burger",   desc: "Crispy fried chicken with mayo",     price: 7.99,  emoji: "🍔", category: "Burgers",  img: "photo-1606755962773-d324e0a13086" },
-  { id: 3,  name: "Margherita Pizza", desc: "Fresh tomato, basil & mozzarella",   price: 11.50, emoji: "🍕", category: "Pizza",    img: "photo-1574071318508-1cdbab80d002" },
-  { id: 4,  name: "Pepperoni Pizza",  desc: "Loaded with spicy pepperoni",        price: 13.00, emoji: "🍕", category: "Pizza",    img: "photo-1628840042765-356cda07504e" },
-  { id: 5,  name: "Crispy Fries",     desc: "Golden, salted & served hot",        price: 3.99,  emoji: "🍟", category: "Sides",    img: "photo-1573080496219-bb080dd4f877" },
-  { id: 6,  name: "Onion Rings",      desc: "Crunchy battered onion rings",       price: 4.49,  emoji: "🧅", category: "Sides",    img: "photo-1639024471283-03518883512d" },
-  { id: 7,  name: "Sushi Platter",    desc: "Assorted fresh nigiri & rolls",      price: 14.00, emoji: "🍣", category: "Sushi",    img: "photo-1579871494447-9811cf80d66c" },
-  { id: 8,  name: "Taco Trio",        desc: "Three soft tacos, your choice",      price: 7.49,  emoji: "🌮", category: "Mexican",  img: "photo-1599974579688-8dbdd335c77f" },
-  { id: 9,  name: "Burrito",          desc: "Stuffed with rice, beans & salsa",   price: 8.49,  emoji: "🌯", category: "Mexican",  img: "photo-1626700051175-6818013e1d4f" },
-  { id: 10, name: "Pasta Bowl",       desc: "Penne in rich tomato & herb sauce",  price: 9.99,  emoji: "🍝", category: "Pasta",    img: "photo-1621996346565-e3dbc646d9a9" },
-  { id: 11, name: "Fresh Salad",      desc: "Garden greens with dressing",        price: 6.50,  emoji: "🥗", category: "Salads",   img: "photo-1512621776951-a57141f2eefd" },
-  { id: 12, name: "Ice Cream",        desc: "Rich sundae with chocolate sauce",   price: 4.25,  emoji: "🍦", category: "Desserts", img: "photo-1563805042-7684c019e1cb" },
-  { id: 13, name: "Chocolate Cake",   desc: "Rich, moist chocolate slice",        price: 5.50,  emoji: "🍰", category: "Desserts", img: "photo-1578985545062-69928b1d9587" },
-  { id: 14, name: "Cola",             desc: "Chilled fizzy drink",                price: 1.99,  emoji: "🥤", category: "Drinks",   img: "photo-1554866585-cd94860890b7" },
-  { id: 15, name: "Fresh Juice",      desc: "Freshly squeezed orange juice",      price: 2.99,  emoji: "🧃", category: "Drinks",   img: "photo-1600271886742-f049cd451bba" },
-  { id: 16, name: "Coffee",           desc: "Freshly brewed hot latte",           price: 2.49,  emoji: "☕", category: "Drinks",   img: "photo-1509042239860-f550ce710b93" },
+  { id: 1,  name: "Classic Burger",   desc: "Juicy beef patty, cheese & lettuce", price: 8.99,  emoji: "🍔", category: "Burgers",  img: "photo-1568901346375-23c9450c58cd", veg: false },
+  { id: 2,  name: "Chicken Burger",   desc: "Crispy fried chicken with mayo",     price: 7.99,  emoji: "🍔", category: "Burgers",  img: "photo-1606755962773-d324e0a13086", veg: false },
+  { id: 3,  name: "Margherita Pizza", desc: "Fresh tomato, basil & mozzarella",   price: 11.50, emoji: "🍕", category: "Pizza",    img: "photo-1574071318508-1cdbab80d002", veg: true },
+  { id: 4,  name: "Pepperoni Pizza",  desc: "Loaded with spicy pepperoni",        price: 13.00, emoji: "🍕", category: "Pizza",    img: "photo-1628840042765-356cda07504e", veg: false },
+  { id: 5,  name: "Crispy Fries",     desc: "Golden, salted & served hot",        price: 3.99,  emoji: "🍟", category: "Sides",    img: "photo-1573080496219-bb080dd4f877", veg: true },
+  { id: 6,  name: "Onion Rings",      desc: "Crunchy battered onion rings",       price: 4.49,  emoji: "🧅", category: "Sides",    img: "photo-1639024471283-03518883512d", veg: true },
+  { id: 7,  name: "Sushi Platter",    desc: "Assorted fresh nigiri & rolls",      price: 14.00, emoji: "🍣", category: "Sushi",    img: "photo-1579871494447-9811cf80d66c", veg: false },
+  { id: 8,  name: "Taco Trio",        desc: "Three soft tacos with grilled meat", price: 7.49,  emoji: "🌮", category: "Mexican",  img: "photo-1599974579688-8dbdd335c77f", veg: false },
+  { id: 9,  name: "Burrito",          desc: "Stuffed with rice, beans & salsa",   price: 8.49,  emoji: "🌯", category: "Mexican",  img: "photo-1626700051175-6818013e1d4f", veg: true },
+  { id: 10, name: "Pasta Bowl",       desc: "Penne in rich tomato & herb sauce",  price: 9.99,  emoji: "🍝", category: "Pasta",    img: "photo-1621996346565-e3dbc646d9a9", veg: true },
+  { id: 11, name: "Fresh Salad",      desc: "Garden greens with dressing",        price: 6.50,  emoji: "🥗", category: "Salads",   img: "photo-1512621776951-a57141f2eefd", veg: true },
+  { id: 12, name: "Ice Cream",        desc: "Rich sundae with chocolate sauce",   price: 4.25,  emoji: "🍦", category: "Desserts", img: "photo-1563805042-7684c019e1cb", veg: true },
+  { id: 13, name: "Chocolate Cake",   desc: "Rich, moist chocolate slice",        price: 5.50,  emoji: "🍰", category: "Desserts", img: "photo-1578985545062-69928b1d9587", veg: true },
+  { id: 14, name: "Cola",             desc: "Chilled fizzy drink",                price: 1.99,  emoji: "🥤", category: "Drinks",   img: "photo-1554866585-cd94860890b7", veg: true },
+  { id: 15, name: "Fresh Juice",      desc: "Freshly squeezed orange juice",      price: 2.99,  emoji: "🧃", category: "Drinks",   img: "photo-1600271886742-f049cd451bba", veg: true },
+  { id: 16, name: "Coffee",           desc: "Freshly brewed hot latte",           price: 2.49,  emoji: "☕", category: "Drinks",   img: "photo-1509042239860-f550ce710b93", veg: true },
 ];
 
 // Build an HD food photo URL from Unsplash, cropped to a consistent size
@@ -53,6 +53,7 @@ function cardHTML(item) {
         <img class="card-img" src="${imageURL(item)}" alt="${item.name}" loading="lazy"
              onerror="this.parentElement.innerHTML='<span class=&quot;emoji-fallback&quot;>${item.emoji}</span>'">
         <span class="rating-badge">⭐ ${ratingFor(item)}</span>
+        <span class="veg-badge ${item.veg ? "veg" : "nonveg"}" title="${item.veg ? "Veg" : "Non-veg"}"></span>
       </div>
       <div class="card-body">
         <h3>${item.name}</h3>
