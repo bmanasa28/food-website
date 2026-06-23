@@ -4,10 +4,13 @@ A simple food ordering demo website built with **HTML, CSS, and JavaScript**.
 Created as part of my internship learning project.
 
 ## ✨ Features
-- Browse a menu of food items
+- Browse a menu of food items across categories
+- 🔍 **Search** dishes by name and filter by **category** tabs
 - Add items to a cart and adjust quantities (+ / −)
-- See a live order total
-- Place an order (demo confirmation)
+- 💾 **Cart is saved** — it survives a page refresh (localStorage)
+- 📝 **Checkout form** — enter name, phone & delivery address
+- 🌙 **Dark mode** toggle (your choice is remembered)
+- See a live order total and an order confirmation
 
 ## 🛠️ Built with
 - **HTML** — page structure (`index.html`)

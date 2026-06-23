@@ -1,32 +1,70 @@
-// ===== Menu data =====
-// Each item: name, short description, price, and an emoji "image".
+// ===== Menu data (now with categories!) =====
 const menuItems = [
-  { id: 1, name: "Classic Burger",  desc: "Juicy beef patty, cheese & lettuce", price: 8.99,  emoji: "🍔" },
-  { id: 2, name: "Margherita Pizza", desc: "Fresh tomato, basil & mozzarella",   price: 11.50, emoji: "🍕" },
-  { id: 3, name: "Crispy Fries",     desc: "Golden, salted & served hot",        price: 3.99,  emoji: "🍟" },
-  { id: 4, name: "Sushi Platter",    desc: "Assorted fresh nigiri & rolls",      price: 14.00, emoji: "🍣" },
-  { id: 5, name: "Taco Trio",        desc: "Three soft tacos, your choice",      price: 7.49,  emoji: "🌮" },
-  { id: 6, name: "Pasta Bowl",       desc: "Creamy alfredo with herbs",          price: 9.99,  emoji: "🍝" },
-  { id: 7, name: "Fresh Salad",      desc: "Garden greens with dressing",        price: 6.50,  emoji: "🥗" },
-  { id: 8, name: "Ice Cream",        desc: "Two scoops, choose your flavor",     price: 4.25,  emoji: "🍦" },
+  { id: 1,  name: "Classic Burger",   desc: "Juicy beef patty, cheese & lettuce", price: 8.99,  emoji: "🍔", category: "Burgers" },
+  { id: 2,  name: "Chicken Burger",   desc: "Crispy chicken with mayo",           price: 7.99,  emoji: "🍔", category: "Burgers" },
+  { id: 3,  name: "Margherita Pizza", desc: "Fresh tomato, basil & mozzarella",   price: 11.50, emoji: "🍕", category: "Pizza"   },
+  { id: 4,  name: "Pepperoni Pizza",  desc: "Loaded with spicy pepperoni",        price: 13.00, emoji: "🍕", category: "Pizza"   },
+  { id: 5,  name: "Crispy Fries",     desc: "Golden, salted & served hot",        price: 3.99,  emoji: "🍟", category: "Sides"   },
+  { id: 6,  name: "Onion Rings",      desc: "Crunchy battered onion rings",       price: 4.49,  emoji: "🧅", category: "Sides"   },
+  { id: 7,  name: "Sushi Platter",    desc: "Assorted fresh nigiri & rolls",      price: 14.00, emoji: "🍣", category: "Sushi"   },
+  { id: 8,  name: "Taco Trio",        desc: "Three soft tacos, your choice",      price: 7.49,  emoji: "🌮", category: "Mexican" },
+  { id: 9,  name: "Burrito",          desc: "Stuffed with rice, beans & salsa",   price: 8.49,  emoji: "🌯", category: "Mexican" },
+  { id: 10, name: "Pasta Bowl",       desc: "Creamy alfredo with herbs",          price: 9.99,  emoji: "🍝", category: "Pasta"   },
+  { id: 11, name: "Fresh Salad",      desc: "Garden greens with dressing",        price: 6.50,  emoji: "🥗", category: "Salads"  },
+  { id: 12, name: "Ice Cream",        desc: "Two scoops, choose your flavor",     price: 4.25,  emoji: "🍦", category: "Desserts"},
+  { id: 13, name: "Chocolate Cake",   desc: "Rich, moist chocolate slice",        price: 5.50,  emoji: "🍰", category: "Desserts"},
+  { id: 14, name: "Cola",             desc: "Chilled fizzy drink",                price: 1.99,  emoji: "🥤", category: "Drinks"  },
+  { id: 15, name: "Fresh Juice",      desc: "Orange, apple or mango",             price: 2.99,  emoji: "🧃", category: "Drinks"  },
+  { id: 16, name: "Coffee",           desc: "Freshly brewed hot coffee",          price: 2.49,  emoji: "☕", category: "Drinks"  },
 ];
 
-// ===== Cart state =====
-// Key = item id, value = { item, qty }
-const cart = {};
+// ===== State =====
+let cart = loadCart();          // { id: { item, qty } } — loaded from localStorage
+let activeCategory = "All";
+let searchTerm = "";
 
-// ===== Grab elements =====
-const menuGrid  = document.getElementById("menu-grid");
-const cartEl    = document.getElementById("cart");
-const overlay   = document.getElementById("overlay");
-const cartItems = document.getElementById("cart-items");
-const cartCount = document.getElementById("cart-count");
-const cartTotal = document.getElementById("cart-total");
-const placeOrderBtn = document.getElementById("place-order");
+// ===== Element references =====
+const menuGrid   = document.getElementById("menu-grid");
+const categoriesEl = document.getElementById("categories");
+const searchInput = document.getElementById("search");
+const noResults  = document.getElementById("no-results");
+const cartEl     = document.getElementById("cart");
+const overlay    = document.getElementById("overlay");
+const cartItems  = document.getElementById("cart-items");
+const cartCount  = document.getElementById("cart-count");
+const cartTotal  = document.getElementById("cart-total");
+const checkoutBtn = document.getElementById("checkout-btn");
+const modal      = document.getElementById("checkout-modal");
+const orderSummary = document.getElementById("order-summary");
+const toast      = document.getElementById("toast");
 
-// ===== Build the menu cards =====
+// ===================================================================
+// FEATURE 1 + 4: Categories & Search
+// ===================================================================
+function renderCategories() {
+  const cats = ["All", ...new Set(menuItems.map(m => m.category))];
+  categoriesEl.innerHTML = cats.map(cat =>
+    `<button class="cat-btn ${cat === activeCategory ? "active" : ""}"
+             onclick="setCategory('${cat}')">${cat}</button>`
+  ).join("");
+}
+
+function setCategory(cat) {
+  activeCategory = cat;
+  renderCategories();
+  renderMenu();
+}
+
 function renderMenu() {
-  menuGrid.innerHTML = menuItems.map(item => `
+  const filtered = menuItems.filter(item => {
+    const matchCat = activeCategory === "All" || item.category === activeCategory;
+    const matchSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
+    return matchCat && matchSearch;
+  });
+
+  noResults.hidden = filtered.length > 0;
+
+  menuGrid.innerHTML = filtered.map(item => `
     <div class="card">
       <div class="emoji">${item.emoji}</div>
       <h3>${item.name}</h3>
@@ -37,11 +75,31 @@ function renderMenu() {
   `).join("");
 }
 
-// ===== Cart actions =====
+searchInput.addEventListener("input", e => {
+  searchTerm = e.target.value;
+  renderMenu();
+});
+
+// ===================================================================
+// FEATURE 2: Cart with localStorage (survives refresh!)
+// ===================================================================
+function loadCart() {
+  try {
+    return JSON.parse(localStorage.getItem("tastyBitesCart")) || {};
+  } catch {
+    return {};
+  }
+}
+
+function saveCart() {
+  localStorage.setItem("tastyBitesCart", JSON.stringify(cart));
+}
+
 function addToCart(id) {
   const item = menuItems.find(m => m.id === id);
   if (!cart[id]) cart[id] = { item, qty: 0 };
   cart[id].qty++;
+  saveCart();
   renderCart();
   openCart();
 }
@@ -50,10 +108,10 @@ function changeQty(id, delta) {
   if (!cart[id]) return;
   cart[id].qty += delta;
   if (cart[id].qty <= 0) delete cart[id];
+  saveCart();
   renderCart();
 }
 
-// ===== Render the cart =====
 function renderCart() {
   const ids = Object.keys(cart);
 
@@ -74,7 +132,6 @@ function renderCart() {
     }).join("");
   }
 
-  // Totals
   let count = 0, total = 0;
   ids.forEach(id => {
     count += cart[id].qty;
@@ -82,27 +139,92 @@ function renderCart() {
   });
   cartCount.textContent = count;
   cartTotal.textContent = `$${total.toFixed(2)}`;
-  placeOrderBtn.disabled = count === 0;
+  checkoutBtn.disabled = count === 0;
+}
+
+function cartTotalNumber() {
+  return Object.keys(cart).reduce((sum, id) => sum + cart[id].qty * cart[id].item.price, 0);
 }
 
 // ===== Open / close cart =====
 function openCart()  { cartEl.classList.add("open");    overlay.classList.add("show"); }
 function closeCart() { cartEl.classList.remove("open"); overlay.classList.remove("show"); }
 
-// ===== Wire up buttons =====
 document.getElementById("cart-toggle").addEventListener("click", openCart);
 document.getElementById("cart-close").addEventListener("click", closeCart);
-overlay.addEventListener("click", closeCart);
+overlay.addEventListener("click", () => { closeCart(); closeModal(); });
 
-placeOrderBtn.addEventListener("click", () => {
-  const total = cartTotal.textContent;
-  alert(`🎉 Thank you for your order!\n\nTotal: ${total}\n\nYour delicious food is on its way!`);
-  // Clear the cart
-  Object.keys(cart).forEach(id => delete cart[id]);
+// ===================================================================
+// FEATURE 3: Checkout form
+// ===================================================================
+function openModal() {
+  // Build the order summary shown inside the form
+  const lines = Object.keys(cart)
+    .map(id => `${cart[id].qty}× ${cart[id].item.name}`)
+    .join(", ");
+  orderSummary.innerHTML =
+    `<strong>Order:</strong> ${lines}<br><strong>Total:</strong> $${cartTotalNumber().toFixed(2)}`;
+  modal.classList.add("open");
+  overlay.classList.add("show");
+}
+function closeModal() { modal.classList.remove("open"); }
+
+checkoutBtn.addEventListener("click", () => { closeCart(); openModal(); });
+document.getElementById("modal-close").addEventListener("click", () => { closeModal(); overlay.classList.remove("show"); });
+
+document.getElementById("checkout-form").addEventListener("submit", e => {
+  e.preventDefault();
+  const name = document.getElementById("cust-name").value.trim();
+  const total = cartTotalNumber().toFixed(2);
+
+  // Clear everything
+  cart = {};
+  saveCart();
   renderCart();
-  closeCart();
+  closeModal();
+  overlay.classList.remove("show");
+  e.target.reset();
+
+  showToast(`🎉 Thanks, ${name}! Your $${total} order is on its way!`);
 });
 
-// ===== Start =====
+// ===================================================================
+// Toast notification
+// ===================================================================
+let toastTimer;
+function showToast(message) {
+  toast.textContent = message;
+  toast.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { toast.hidden = true; }, 4000);
+}
+
+// ===================================================================
+// FEATURE: Dark mode (remembers your choice)
+// ===================================================================
+const themeToggle = document.getElementById("theme-toggle");
+
+function applyTheme(theme) {
+  if (theme === "dark") {
+    document.body.classList.add("dark");
+    themeToggle.textContent = "☀️";
+  } else {
+    document.body.classList.remove("dark");
+    themeToggle.textContent = "🌙";
+  }
+}
+
+themeToggle.addEventListener("click", () => {
+  const isDark = document.body.classList.toggle("dark");
+  const theme = isDark ? "dark" : "light";
+  themeToggle.textContent = isDark ? "☀️" : "🌙";
+  localStorage.setItem("tastyBitesTheme", theme);
+});
+
+// ===================================================================
+// Start everything
+// ===================================================================
+applyTheme(localStorage.getItem("tastyBitesTheme") || "light");
+renderCategories();
 renderMenu();
 renderCart();
