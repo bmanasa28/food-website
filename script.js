@@ -141,6 +141,13 @@ function renderMenu() {
   });
   if (noResults) noResults.hidden = filtered.length > 0;
   menuGrid.innerHTML = filtered.map(cardHTML).join("");
+
+  // Featured row only makes sense when browsing everything — hide it while filtering
+  const featuredSection = document.getElementById("featured-section");
+  if (featuredSection) {
+    const browsingAll = activeCategory === "All" && searchTerm.trim() === "";
+    featuredSection.style.display = browsingAll ? "" : "none";
+  }
 }
 
 // ===================================================================

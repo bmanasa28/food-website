@@ -276,10 +276,17 @@ a.cat-btn { text-decoration: none; }
 /* =====================================================================
    COMPACT HOME LAYOUT
    ===================================================================== */
-.hero-compact { min-height: 88vh; }
+/* Home hero fills exactly one screen (viewport minus the sticky header) */
+.hero-compact {
+  min-height: calc(100vh - 68px);
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+/* Stop the landing page from scrolling */
+.home-page { overflow: hidden; }
 .hero-categories {
   justify-content: center;
-  margin-top: 2rem;
+  margin-top: 1.8rem;
   max-width: 680px;
   margin-left: auto;
   margin-right: auto;
