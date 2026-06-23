@@ -29,6 +29,47 @@ function ratingFor(item) {
   return (4.1 + (item.id % 8) * 0.1).toFixed(1);
 }
 
+// A consistent delivery time per dish (deterministic)
+function deliveryFor(item) {
+  const base = 15 + (item.id % 5) * 3;   // 15–27
+  return `${base}–${base + 10} min`;
+}
+
+// Emoji icon for each category (used on the category chips)
+const categoryIcons = {
+  All: "🍽️", Burgers: "🍔", Pizza: "🍕", Sides: "🍟",
+  Sushi: "🍣", Mexican: "🌮", Pasta: "🍝", Salads: "🥗",
+  Desserts: "🍰", Drinks: "🥤",
+};
+
+// Dishes shown in the "Featured Dishes" section (the highest-rated picks)
+const featuredIds = [1, 3, 7, 13];
+
+// Shared card markup, reused by the menu and featured sections
+function cardHTML(item) {
+  return `
+    <div class="card">
+      <div class="card-img-wrap">
+        <img class="card-img" src="${imageURL(item)}" alt="${item.name}" loading="lazy"
+             onerror="this.parentElement.innerHTML='<span class=&quot;emoji-fallback&quot;>${item.emoji}</span>'">
+        <span class="rating-badge">⭐ ${ratingFor(item)}</span>
+      </div>
+      <div class="card-body">
+        <h3>${item.name}</h3>
+        <p class="desc">${item.desc}</p>
+        <div class="card-meta">
+          <span>⏱ ${deliveryFor(item)}</span>
+          <span>•</span>
+          <span>${item.category}</span>
+        </div>
+        <div class="card-foot">
+          <div class="price">$${item.price.toFixed(2)}</div>
+          <button class="add-btn" onclick="addToCart(${item.id})">Add +</button>
+        </div>
+      </div>
+    </div>`;
+}
+
 // ===== State =====
 let cart = loadCart();          // { id: { item, qty } } — loaded from localStorage
 let activeCategory = "All";
@@ -36,6 +77,7 @@ let searchTerm = "";
 
 // ===== Element references =====
 const menuGrid   = document.getElementById("menu-grid");
+const featuredGrid = document.getElementById("featured-grid");
 const categoriesEl = document.getElementById("categories");
 const searchInput = document.getElementById("search");
 const noResults  = document.getElementById("no-results");
@@ -55,8 +97,9 @@ const toast      = document.getElementById("toast");
 function renderCategories() {
   const cats = ["All", ...new Set(menuItems.map(m => m.category))];
   categoriesEl.innerHTML = cats.map(cat =>
-    `<button class="cat-btn ${cat === activeCategory ? "active" : ""}"
-             onclick="setCategory('${cat}')">${cat}</button>`
+    `<button class="cat-btn ${cat === activeCategory ? "active" : ""}" onclick="setCategory('${cat}')">
+       <span class="cat-icon">${categoryIcons[cat] || "🍴"}</span> ${cat}
+     </button>`
   ).join("");
 }
 
@@ -64,6 +107,13 @@ function setCategory(cat) {
   activeCategory = cat;
   renderCategories();
   renderMenu();
+  document.getElementById("menu-section").scrollIntoView({ behavior: "smooth" });
+}
+
+function renderFeatured() {
+  featuredGrid.innerHTML = menuItems
+    .filter(item => featuredIds.includes(item.id))
+    .map(cardHTML).join("");
 }
 
 function renderMenu() {
@@ -74,27 +124,18 @@ function renderMenu() {
   });
 
   noResults.hidden = filtered.length > 0;
-
-  menuGrid.innerHTML = filtered.map(item => `
-    <div class="card">
-      <div class="card-img-wrap">
-        <img class="card-img" src="${imageURL(item)}" alt="${item.name}" loading="lazy"
-             onerror="this.parentElement.innerHTML='<span class=&quot;emoji-fallback&quot;>${item.emoji}</span>'">
-        <span class="rating-badge">⭐ ${ratingFor(item)}</span>
-      </div>
-      <div class="card-body">
-        <h3>${item.name}</h3>
-        <p class="desc">${item.desc}</p>
-        <div class="price">$${item.price.toFixed(2)}</div>
-        <button class="add-btn" onclick="addToCart(${item.id})">Add to Cart</button>
-      </div>
-    </div>
-  `).join("");
+  menuGrid.innerHTML = filtered.map(cardHTML).join("");
 }
 
 searchInput.addEventListener("input", e => {
   searchTerm = e.target.value;
   renderMenu();
+});
+
+// Hero search form: don't reload the page; jump to the menu results
+document.getElementById("hero-search-form").addEventListener("submit", e => {
+  e.preventDefault();
+  document.getElementById("menu-section").scrollIntoView({ behavior: "smooth" });
 });
 
 // ===================================================================
@@ -239,9 +280,31 @@ themeToggle.addEventListener("click", () => {
 });
 
 // ===================================================================
+// Smooth scroll-reveal animations
+// ===================================================================
+function setupReveal() {
+  const els = document.querySelectorAll(".reveal");
+  if (!("IntersectionObserver" in window)) {
+    els.forEach(el => el.classList.add("in-view"));   // fallback: just show
+    return;
+  }
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("in-view");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  els.forEach(el => observer.observe(el));
+}
+
+// ===================================================================
 // Start everything
 // ===================================================================
 applyTheme(localStorage.getItem("tastyBitesTheme") || "light");
 renderCategories();
+renderFeatured();
 renderMenu();
 renderCart();
+setupReveal();

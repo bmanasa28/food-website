@@ -3,37 +3,98 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tasty Bites 🍔 — Order Food Online</title>
+  <title>Tasty Bites 🍔 — Order Delicious Food Online</title>
+
+  <!-- Premium font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <!-- ===== Header ===== -->
   <header class="header">
-    <div class="logo">🍔 Tasty Bites</div>
+    <div class="logo">🍔 Tasty&nbsp;Bites</div>
+    <nav class="nav-links">
+      <a href="#categories-section">Categories</a>
+      <a href="#featured-section">Featured</a>
+      <a href="#menu-section">Menu</a>
+    </nav>
     <div class="header-actions">
       <button id="theme-toggle" class="theme-toggle" title="Toggle dark mode">🌙</button>
       <button id="cart-toggle" class="cart-toggle">
-        🛒 Cart <span id="cart-count" class="cart-count">0</span>
+        🛒 <span class="cart-label">Cart</span> <span id="cart-count" class="cart-count">0</span>
       </button>
     </div>
   </header>
 
-  <!-- ===== Hero banner ===== -->
+  <!-- ===== HERO ===== -->
   <section class="hero">
-    <h1>Delicious food, delivered fast</h1>
-    <p>Order your favorites in just a few clicks.</p>
-  </section>
+    <div class="hero-overlay"></div>
+    <div class="hero-content reveal">
+      <span class="hero-badge">⚡ Free delivery in 30 minutes</span>
+      <h1 class="hero-title">Crave it. <span class="grad-text">Order it.</span> Devour it.</h1>
+      <p class="hero-subtitle">Hot, fresh and delicious meals from your favourite kitchen — delivered to your door in minutes.</p>
 
-  <!-- ===== Controls: search + categories ===== -->
-  <section class="controls">
-    <input type="text" id="search" class="search" placeholder="🔍 Search for a dish..." />
-    <div class="categories" id="categories">
-      <!-- Category buttons inserted by script.js -->
+      <form class="hero-search" id="hero-search-form">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search" placeholder="Search for burgers, pizza, sushi..." autocomplete="off" />
+        <button type="submit" class="search-btn">Search</button>
+      </form>
+
+      <div class="hero-stats">
+        <div class="stat"><strong>16+</strong><span>Dishes</span></div>
+        <div class="stat"><strong>30 min</strong><span>Avg Delivery</span></div>
+        <div class="stat"><strong>4.8 ⭐</strong><span>Rating</span></div>
+      </div>
     </div>
   </section>
 
-  <!-- ===== Menu ===== -->
-  <main class="menu" id="menu">
+  <!-- ===== SPECIAL OFFERS ===== -->
+  <section class="offers reveal">
+    <div class="offer-card offer-1">
+      <div class="offer-emoji">🎉</div>
+      <div><h3>50% OFF</h3><p>On your first order, up to $10</p></div>
+    </div>
+    <div class="offer-card offer-2">
+      <div class="offer-emoji">🚚</div>
+      <div><h3>Free Delivery</h3><p>On all orders above $20</p></div>
+    </div>
+    <div class="offer-card offer-3">
+      <div class="offer-emoji">🍕</div>
+      <div><h3>Buy 1 Get 1</h3><p>On all pizzas, every weekend</p></div>
+    </div>
+  </section>
+
+  <!-- ===== CATEGORIES ===== -->
+  <section class="section reveal" id="categories-section">
+    <div class="section-head">
+      <h2>Order by Category</h2>
+      <p>Pick a craving and dig in</p>
+    </div>
+    <div class="categories" id="categories">
+      <!-- Category chips inserted by script.js -->
+    </div>
+  </section>
+
+  <!-- ===== FEATURED DISHES ===== -->
+  <section class="section reveal" id="featured-section">
+    <div class="section-head">
+      <h2>⭐ Featured Dishes</h2>
+      <p>Most-loved picks of the week</p>
+    </div>
+    <div class="menu-grid" id="featured-grid">
+      <!-- Featured cards inserted by script.js -->
+    </div>
+  </section>
+
+  <!-- ===== FULL MENU ===== -->
+  <main class="section reveal" id="menu-section">
+    <div class="section-head">
+      <h2>Our Full Menu</h2>
+      <p id="menu-subtitle">All your favourites in one place</p>
+    </div>
     <div class="menu-grid" id="menu-grid">
       <!-- Food cards inserted by script.js -->
     </div>
@@ -80,12 +141,35 @@
   </div>
 
   <div class="overlay" id="overlay"></div>
-
-  <!-- ===== Order success toast ===== -->
   <div class="toast" id="toast" hidden></div>
 
+  <!-- ===== Footer ===== -->
   <footer class="footer">
-    <p>Made with ❤️ by manasa · Tasty Bites Demo</p>
+    <div class="footer-grid">
+      <div>
+        <div class="logo">🍔 Tasty Bites</div>
+        <p class="footer-tag">Delicious food, delivered fast.</p>
+      </div>
+      <div>
+        <h4>Explore</h4>
+        <a href="#categories-section">Categories</a>
+        <a href="#featured-section">Featured</a>
+        <a href="#menu-section">Full Menu</a>
+      </div>
+      <div>
+        <h4>Company</h4>
+        <a href="#">About us</a>
+        <a href="#">Careers</a>
+        <a href="#">Contact</a>
+      </div>
+      <div>
+        <h4>Follow</h4>
+        <a href="#">Instagram</a>
+        <a href="#">Twitter</a>
+        <a href="#">Facebook</a>
+      </div>
+    </div>
+    <p class="footer-bottom">Made with ❤️ by manasa · Tasty Bites Demo · 2026</p>
   </footer>
 
   <script src="script.js"></script>
