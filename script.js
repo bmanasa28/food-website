@@ -93,51 +93,85 @@ const orderSummary = document.getElementById("order-summary");
 const toast      = document.getElementById("toast");
 
 // ===================================================================
-// FEATURE 1 + 4: Categories & Search
+// Page detection: the full menu only exists on menu.html
+// ===================================================================
+const isMenuPage = !!menuGrid;
+
+// ===================================================================
+// Categories (links on the home page, filter buttons on the menu page)
 // ===================================================================
 function renderCategories() {
+  if (!categoriesEl) return;
   const cats = ["All", ...new Set(menuItems.map(m => m.category))];
-  categoriesEl.innerHTML = cats.map(cat =>
-    `<button class="cat-btn ${cat === activeCategory ? "active" : ""}" onclick="setCategory('${cat}')">
-       <span class="cat-icon">${categoryIcons[cat] || "🍴"}</span> ${cat}
-     </button>`
-  ).join("");
+  categoriesEl.innerHTML = cats.map(cat => {
+    const icon = `<span class="cat-icon">${categoryIcons[cat] || "🍴"}</span> ${cat}`;
+    if (isMenuPage) {
+      return `<button class="cat-btn ${cat === activeCategory ? "active" : ""}" onclick="setCategory('${cat}')">${icon}</button>`;
+    }
+    // Home page: clicking a category opens the menu page filtered to it
+    return `<a class="cat-btn" href="menu.html?cat=${encodeURIComponent(cat)}">${icon}</a>`;
+  }).join("");
 }
 
 function setCategory(cat) {
   activeCategory = cat;
   renderCategories();
   renderMenu();
-  document.getElementById("menu-section").scrollIntoView({ behavior: "smooth" });
 }
 
+// ===================================================================
+// Featured dishes (home page only)
+// ===================================================================
 function renderFeatured() {
+  if (!featuredGrid) return;
   featuredGrid.innerHTML = menuItems
     .filter(item => featuredIds.includes(item.id))
     .map(cardHTML).join("");
 }
 
+// ===================================================================
+// Full menu (menu page only)
+// ===================================================================
 function renderMenu() {
+  if (!menuGrid) return;
   const filtered = menuItems.filter(item => {
     const matchCat = activeCategory === "All" || item.category === activeCategory;
     const matchSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
     return matchCat && matchSearch;
   });
-
-  noResults.hidden = filtered.length > 0;
+  if (noResults) noResults.hidden = filtered.length > 0;
   menuGrid.innerHTML = filtered.map(cardHTML).join("");
 }
 
-searchInput.addEventListener("input", e => {
-  searchTerm = e.target.value;
-  renderMenu();
-});
+// ===================================================================
+// Search behaviour
+// ===================================================================
+const searchForm = document.getElementById("hero-search-form");
 
-// Hero search form: don't reload the page; jump to the menu results
-document.getElementById("hero-search-form").addEventListener("submit", e => {
-  e.preventDefault();
-  document.getElementById("menu-section").scrollIntoView({ behavior: "smooth" });
-});
+if (isMenuPage) {
+  // Live filtering on the menu page
+  if (searchInput) {
+    searchInput.addEventListener("input", e => {
+      searchTerm = e.target.value;
+      renderMenu();
+    });
+  }
+  if (searchForm) searchForm.addEventListener("submit", e => e.preventDefault());
+
+  // Honour ?q= and ?cat= from the URL (set by the home page links/search)
+  const params = new URLSearchParams(location.search);
+  const q = params.get("q");
+  const cat = params.get("cat");
+  if (q && searchInput) { searchTerm = q; searchInput.value = q; }
+  if (cat) activeCategory = cat;
+} else if (searchForm) {
+  // Home page: pressing search sends you to the menu page with the query
+  searchForm.addEventListener("submit", e => {
+    e.preventDefault();
+    const q = (searchInput && searchInput.value.trim()) || "";
+    window.location.href = "menu.html" + (q ? "?q=" + encodeURIComponent(q) : "");
+  });
+}
 
 // ===================================================================
 // FEATURE 2: Cart with localStorage (survives refresh!)

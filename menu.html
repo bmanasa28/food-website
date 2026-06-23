@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tasty Bites 🍔 — Order Delicious Food Online</title>
+  <title>Menu · Tasty Bites 🍔</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="home-page">
+<body class="menu-page">
   <!-- ===== Header ===== -->
   <header class="header">
     <div class="logo">🍔 Tasty&nbsp;Bites</div>
     <nav class="nav-links">
-      <a href="index.html" class="active">Home</a>
-      <a href="menu.html">Menu</a>
+      <a href="index.html">Home</a>
+      <a href="menu.html" class="active">Menu</a>
     </nav>
     <div class="header-actions">
       <button id="theme-toggle" class="theme-toggle" title="Toggle dark mode">🌙</button>
@@ -26,35 +26,26 @@
     </div>
   </header>
 
-  <!-- ===== HERO ===== -->
-  <section class="hero hero-compact">
-    <div class="hero-content">
-      <span class="hero-badge">⚡ Free delivery in 30 minutes</span>
-      <h1 class="hero-title">Crave it. <span class="grad-text">Order it.</span> Devour it.</h1>
-      <p class="hero-subtitle">Hot, fresh meals delivered to your door in minutes.</p>
-
-      <form class="hero-search" id="hero-search-form">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="search" placeholder="Search for burgers, pizza, sushi..." autocomplete="off" />
-        <button type="submit" class="search-btn">Search</button>
-      </form>
-
-      <!-- Category quick-links (navigate to the menu page) -->
-      <div class="categories hero-categories" id="categories"></div>
+  <!-- ===== Menu page title + filters ===== -->
+  <section class="menu-top">
+    <div class="section-head">
+      <h2>Our Full Menu</h2>
+      <p>All your favourites in one place</p>
     </div>
+
+    <form class="menu-search" id="hero-search-form">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="search" placeholder="Search dishes..." autocomplete="off" />
+    </form>
+
+    <div class="categories" id="categories"></div>
   </section>
 
-  <!-- ===== FEATURED DISHES ===== -->
-  <section class="section featured-home" id="featured-section">
-    <div class="section-head section-head-row">
-      <div>
-        <h2>⭐ Featured Dishes</h2>
-        <p>Most-loved picks of the week</p>
-      </div>
-      <a href="menu.html" class="view-all-btn">View Full Menu →</a>
-    </div>
-    <div class="menu-grid" id="featured-grid"></div>
-  </section>
+  <!-- ===== Full menu grid ===== -->
+  <main class="section menu-main" id="menu-section">
+    <div class="menu-grid" id="menu-grid"></div>
+    <p id="no-results" class="no-results" hidden>No dishes match your search 😕</p>
+  </main>
 
   <!-- ===== Cart sidebar ===== -->
   <aside class="cart" id="cart">
@@ -91,7 +82,6 @@
   <div class="overlay" id="overlay"></div>
   <div class="toast" id="toast" hidden></div>
 
-  <!-- ===== Compact footer ===== -->
   <footer class="footer footer-slim">
     <div class="logo">🍔 Tasty Bites</div>
     <div class="footer-links">
