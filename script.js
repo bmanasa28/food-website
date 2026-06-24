@@ -14,8 +14,8 @@ const menuItems = [
   { id: 12, name: "Ice Cream",        desc: "Rich sundae with chocolate sauce",   price: 99,  emoji: "🍦", category: "Desserts", img: "photo-1563805042-7684c019e1cb", veg: true },
   { id: 13, name: "Chocolate Cake",   desc: "Rich, moist chocolate slice",        price: 149, emoji: "🍰", category: "Desserts", img: "photo-1578985545062-69928b1d9587", veg: true },
   { id: 14, name: "Cola",             desc: "Chilled fizzy drink",                price: 49,  emoji: "🥤", category: "Drinks",   img: "photo-1554866585-cd94860890b7", veg: true },
-  { id: 15, name: "Fresh Juice",      desc: "Freshly squeezed orange juice",      price: 79,  emoji: "🧃", category: "Drinks",   img: "photo-1600271886742-f049cd451bba", veg: true },
-  { id: 16, name: "Coffee",           desc: "Freshly brewed hot latte",           price: 69,  emoji: "☕", category: "Drinks",   img: "photo-1509042239860-f550ce710b93", veg: true },
+  { id: 15, name: "Fresh Juice",      desc: "Freshly squeezed orange juice",      price: 79,  emoji: "🧃", category: "Drinks",   img: "photo-1621506289937-a8e4df240d0b", veg: true },
+  { id: 16, name: "Coffee",           desc: "Freshly brewed hot latte",           price: 69,  emoji: "☕", category: "Drinks",   img: "photo-1572442388796-11668a67e53d", veg: true },
 ];
 
 // Format a price in Indian Rupees, e.g. 1299 -> "₹1,299"
