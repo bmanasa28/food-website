@@ -273,6 +273,37 @@ h1, h2, h3, h4 { line-height: 1.2; }
 .cat-btn.active { background: var(--grad); color: #fff; border-color: transparent; }
 a.cat-btn { text-decoration: none; }
 
+/* ---- Veg / Non-veg diet filter ---- */
+.diet-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  margin-top: 1rem;
+}
+.diet-btn {
+  background: var(--surface);
+  color: var(--text);
+  border: 2px solid var(--border);
+  padding: 0.6rem 1.2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  font-family: inherit;
+  box-shadow: 0 4px 12px var(--shadow);
+  transition: transform 0.18s ease, box-shadow 0.2s, background 0.2s, color 0.2s, border-color 0.2s;
+}
+.diet-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 22px var(--shadow-lg); }
+
+/* Outline colours so the buttons read as veg/non-veg even when unselected */
+.diet-veg    { border-color: #1a8b3a; color: #1a8b3a; }
+.diet-nonveg { border-color: #c0392b; color: #c0392b; }
+
+/* Selected state fills the button with its colour */
+.diet-btn.active           { background: var(--text); color: #fff; border-color: transparent; }
+.diet-veg.active           { background: #1a8b3a; color: #fff; border-color: transparent; }
+.diet-nonveg.active        { background: #c0392b; color: #fff; border-color: transparent; }
+
 /* =====================================================================
    COMPACT HOME LAYOUT
    ===================================================================== */

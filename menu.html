@@ -39,6 +39,13 @@
     </form>
 
     <div class="categories" id="categories"></div>
+
+    <!-- Veg / Non-veg diet filter -->
+    <div class="diet-filters" id="diet-filters">
+      <button class="diet-btn active" onclick="setDiet('All')">All</button>
+      <button class="diet-btn diet-veg" onclick="setDiet('veg')">🟢 Veg only</button>
+      <button class="diet-btn diet-nonveg" onclick="setDiet('nonveg')">🔴 Non-Veg only</button>
+    </div>
   </section>
 
   <!-- ===== Featured dishes (moved here from the home page) ===== -->
@@ -67,7 +74,7 @@
       <li class="cart-empty">Your cart is empty 🛒</li>
     </ul>
     <div class="cart-footer">
-      <div class="cart-total">Total: <span id="cart-total">$0.00</span></div>
+      <div class="cart-total">Total: <span id="cart-total">₹0</span></div>
       <button id="checkout-btn" class="place-order" disabled>Checkout</button>
     </div>
   </aside>

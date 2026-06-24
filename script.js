@@ -1,22 +1,27 @@
 // ===== Menu data (categories + hand-picked, verified Unsplash photo IDs) =====
 const menuItems = [
-  { id: 1,  name: "Classic Burger",   desc: "Juicy beef patty, cheese & lettuce", price: 8.99,  emoji: "🍔", category: "Burgers",  img: "photo-1568901346375-23c9450c58cd", veg: false },
-  { id: 2,  name: "Chicken Burger",   desc: "Crispy fried chicken with mayo",     price: 7.99,  emoji: "🍔", category: "Burgers",  img: "photo-1606755962773-d324e0a13086", veg: false },
-  { id: 3,  name: "Margherita Pizza", desc: "Fresh tomato, basil & mozzarella",   price: 11.50, emoji: "🍕", category: "Pizza",    img: "photo-1574071318508-1cdbab80d002", veg: true },
-  { id: 4,  name: "Pepperoni Pizza",  desc: "Loaded with spicy pepperoni",        price: 13.00, emoji: "🍕", category: "Pizza",    img: "photo-1628840042765-356cda07504e", veg: false },
-  { id: 5,  name: "Crispy Fries",     desc: "Golden, salted & served hot",        price: 3.99,  emoji: "🍟", category: "Sides",    img: "photo-1573080496219-bb080dd4f877", veg: true },
-  { id: 6,  name: "Onion Rings",      desc: "Crunchy battered onion rings",       price: 4.49,  emoji: "🧅", category: "Sides",    img: "photo-1639024471283-03518883512d", veg: true },
-  { id: 7,  name: "Sushi Platter",    desc: "Assorted fresh nigiri & rolls",      price: 14.00, emoji: "🍣", category: "Sushi",    img: "photo-1579871494447-9811cf80d66c", veg: false },
-  { id: 8,  name: "Taco Trio",        desc: "Three soft tacos with grilled meat", price: 7.49,  emoji: "🌮", category: "Mexican",  img: "photo-1599974579688-8dbdd335c77f", veg: false },
-  { id: 9,  name: "Burrito",          desc: "Stuffed with rice, beans & salsa",   price: 8.49,  emoji: "🌯", category: "Mexican",  img: "photo-1626700051175-6818013e1d4f", veg: true },
-  { id: 10, name: "Pasta Bowl",       desc: "Penne in rich tomato & herb sauce",  price: 9.99,  emoji: "🍝", category: "Pasta",    img: "photo-1621996346565-e3dbc646d9a9", veg: true },
-  { id: 11, name: "Fresh Salad",      desc: "Garden greens with dressing",        price: 6.50,  emoji: "🥗", category: "Salads",   img: "photo-1512621776951-a57141f2eefd", veg: true },
-  { id: 12, name: "Ice Cream",        desc: "Rich sundae with chocolate sauce",   price: 4.25,  emoji: "🍦", category: "Desserts", img: "photo-1563805042-7684c019e1cb", veg: true },
-  { id: 13, name: "Chocolate Cake",   desc: "Rich, moist chocolate slice",        price: 5.50,  emoji: "🍰", category: "Desserts", img: "photo-1578985545062-69928b1d9587", veg: true },
-  { id: 14, name: "Cola",             desc: "Chilled fizzy drink",                price: 1.99,  emoji: "🥤", category: "Drinks",   img: "photo-1554866585-cd94860890b7", veg: true },
-  { id: 15, name: "Fresh Juice",      desc: "Freshly squeezed orange juice",      price: 2.99,  emoji: "🧃", category: "Drinks",   img: "photo-1600271886742-f049cd451bba", veg: true },
-  { id: 16, name: "Coffee",           desc: "Freshly brewed hot latte",           price: 2.49,  emoji: "☕", category: "Drinks",   img: "photo-1509042239860-f550ce710b93", veg: true },
+  { id: 1,  name: "Classic Burger",   desc: "Juicy beef patty, cheese & lettuce", price: 199, emoji: "🍔", category: "Burgers",  img: "photo-1568901346375-23c9450c58cd", veg: false },
+  { id: 2,  name: "Chicken Burger",   desc: "Crispy fried chicken with mayo",     price: 179, emoji: "🍔", category: "Burgers",  img: "photo-1606755962773-d324e0a13086", veg: false },
+  { id: 3,  name: "Margherita Pizza", desc: "Fresh tomato, basil & mozzarella",   price: 329, emoji: "🍕", category: "Pizza",    img: "photo-1574071318508-1cdbab80d002", veg: true },
+  { id: 4,  name: "Pepperoni Pizza",  desc: "Loaded with spicy pepperoni",        price: 399, emoji: "🍕", category: "Pizza",    img: "photo-1628840042765-356cda07504e", veg: false },
+  { id: 5,  name: "Crispy Fries",     desc: "Golden, salted & served hot",        price: 99,  emoji: "🍟", category: "Sides",    img: "photo-1573080496219-bb080dd4f877", veg: true },
+  { id: 6,  name: "Onion Rings",      desc: "Crunchy battered onion rings",       price: 119, emoji: "🧅", category: "Sides",    img: "photo-1639024471283-03518883512d", veg: true },
+  { id: 7,  name: "Sushi Platter",    desc: "Assorted fresh nigiri & rolls",      price: 449, emoji: "🍣", category: "Sushi",    img: "photo-1579871494447-9811cf80d66c", veg: false },
+  { id: 8,  name: "Taco Trio",        desc: "Three soft tacos with grilled meat", price: 199, emoji: "🌮", category: "Mexican",  img: "photo-1599974579688-8dbdd335c77f", veg: false },
+  { id: 9,  name: "Burrito",          desc: "Stuffed with rice, beans & salsa",   price: 229, emoji: "🌯", category: "Mexican",  img: "photo-1626700051175-6818013e1d4f", veg: true },
+  { id: 10, name: "Pasta Bowl",       desc: "Penne in rich tomato & herb sauce",  price: 259, emoji: "🍝", category: "Pasta",    img: "photo-1621996346565-e3dbc646d9a9", veg: true },
+  { id: 11, name: "Fresh Salad",      desc: "Garden greens with dressing",        price: 149, emoji: "🥗", category: "Salads",   img: "photo-1512621776951-a57141f2eefd", veg: true },
+  { id: 12, name: "Ice Cream",        desc: "Rich sundae with chocolate sauce",   price: 99,  emoji: "🍦", category: "Desserts", img: "photo-1563805042-7684c019e1cb", veg: true },
+  { id: 13, name: "Chocolate Cake",   desc: "Rich, moist chocolate slice",        price: 149, emoji: "🍰", category: "Desserts", img: "photo-1578985545062-69928b1d9587", veg: true },
+  { id: 14, name: "Cola",             desc: "Chilled fizzy drink",                price: 49,  emoji: "🥤", category: "Drinks",   img: "photo-1554866585-cd94860890b7", veg: true },
+  { id: 15, name: "Fresh Juice",      desc: "Freshly squeezed orange juice",      price: 79,  emoji: "🧃", category: "Drinks",   img: "photo-1600271886742-f049cd451bba", veg: true },
+  { id: 16, name: "Coffee",           desc: "Freshly brewed hot latte",           price: 69,  emoji: "☕", category: "Drinks",   img: "photo-1509042239860-f550ce710b93", veg: true },
 ];
+
+// Format a price in Indian Rupees, e.g. 1299 -> "₹1,299"
+function formatPrice(amount) {
+  return "₹" + Math.round(amount).toLocaleString("en-IN");
+}
 
 // Build an HD food photo URL from Unsplash, cropped to a consistent size
 // so every card looks uniform (the modern food-delivery-app look).
@@ -65,7 +70,7 @@ function cardHTML(item) {
           <span>${item.category}</span>
         </div>
         <div class="card-foot">
-          <div class="price">$${item.price.toFixed(2)}</div>
+          <div class="price">${formatPrice(item.price)}</div>
           <button class="add-btn" onclick="event.stopPropagation(); addToCart(${item.id})">Add +</button>
         </div>
       </div>
@@ -80,6 +85,7 @@ function detailImageURL(item) {
 // ===== State =====
 let cart = loadCart();          // { id: { item, qty } } — loaded from localStorage
 let activeCategory = "All";
+let activeDiet = "All";          // "All" | "veg" | "nonveg"
 let searchTerm = "";
 
 // ===== Element references =====
@@ -125,6 +131,17 @@ function setCategory(cat) {
   renderMenu();
 }
 
+// Veg / Non-veg diet filter (buttons live directly in menu.html)
+function setDiet(diet) {
+  activeDiet = diet;
+  document.querySelectorAll("#diet-filters .diet-btn").forEach(btn => {
+    // Match each button's onclick value to the chosen diet
+    const isActive = btn.getAttribute("onclick") === `setDiet('${diet}')`;
+    btn.classList.toggle("active", isActive);
+  });
+  renderMenu();
+}
+
 // ===================================================================
 // Featured dishes (home page only)
 // ===================================================================
@@ -142,8 +159,11 @@ function renderMenu() {
   if (!menuGrid) return;
   const filtered = menuItems.filter(item => {
     const matchCat = activeCategory === "All" || item.category === activeCategory;
+    const matchDiet = activeDiet === "All"
+      || (activeDiet === "veg" && item.veg)
+      || (activeDiet === "nonveg" && !item.veg);
     const matchSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchCat && matchSearch;
+    return matchCat && matchDiet && matchSearch;
   });
   if (noResults) noResults.hidden = filtered.length > 0;
   menuGrid.innerHTML = filtered.map(cardHTML).join("");
@@ -151,7 +171,7 @@ function renderMenu() {
   // Featured row only makes sense when browsing everything — hide it while filtering
   const featuredSection = document.getElementById("featured-section");
   if (featuredSection) {
-    const browsingAll = activeCategory === "All" && searchTerm.trim() === "";
+    const browsingAll = activeCategory === "All" && activeDiet === "All" && searchTerm.trim() === "";
     featuredSection.style.display = browsingAll ? "" : "none";
   }
 }
@@ -197,7 +217,7 @@ function renderDetails() {
           <span class="veg-label ${item.veg ? "veg" : "nonveg"}">${item.veg ? "🟢 Veg" : "🔴 Non-veg"}</span>
         </div>
         <p class="detail-desc">${item.desc}</p>
-        <div class="detail-price">$${item.price.toFixed(2)}</div>
+        <div class="detail-price">${formatPrice(item.price)}</div>
         <div class="qty-row">
           <button onclick="detailQtyChange(-1)">−</button>
           <span id="detail-qty">${detailQty}</span>
@@ -300,7 +320,7 @@ function renderCart() {
       const { item, qty } = cart[id];
       return `
         <li class="cart-item">
-          <span class="info">${item.emoji} ${item.name}<br><small>$${item.price.toFixed(2)}</small></span>
+          <span class="info">${item.emoji} ${item.name}<br><small>${formatPrice(item.price)}</small></span>
           <span class="qty-controls">
             <button onclick="changeQty(${id}, -1)">−</button>
             <span class="qty">${qty}</span>
@@ -316,7 +336,7 @@ function renderCart() {
     total += cart[id].qty * cart[id].item.price;
   });
   cartCount.textContent = count;
-  cartTotal.textContent = `$${total.toFixed(2)}`;
+  cartTotal.textContent = formatPrice(total);
   checkoutBtn.disabled = count === 0;
 }
 
@@ -341,7 +361,7 @@ function openModal() {
     .map(id => `${cart[id].qty}× ${cart[id].item.name}`)
     .join(", ");
   orderSummary.innerHTML =
-    `<strong>Order:</strong> ${lines}<br><strong>Total:</strong> $${cartTotalNumber().toFixed(2)}`;
+    `<strong>Order:</strong> ${lines}<br><strong>Total:</strong> ${formatPrice(cartTotalNumber())}`;
   modal.classList.add("open");
   overlay.classList.add("show");
 }
@@ -353,7 +373,7 @@ document.getElementById("modal-close").addEventListener("click", () => { closeMo
 document.getElementById("checkout-form").addEventListener("submit", e => {
   e.preventDefault();
   const name = document.getElementById("cust-name").value.trim();
-  const total = cartTotalNumber().toFixed(2);
+  const total = formatPrice(cartTotalNumber());
 
   // Clear everything
   cart = {};
@@ -363,7 +383,7 @@ document.getElementById("checkout-form").addEventListener("submit", e => {
   overlay.classList.remove("show");
   e.target.reset();
 
-  showToast(`🎉 Thanks, ${name}! Your $${total} order is on its way!`);
+  showToast(`🎉 Thanks, ${name}! Your ${total} order is on its way!`);
 });
 
 // ===================================================================
