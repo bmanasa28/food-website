@@ -12,7 +12,7 @@ const menuItems = [
   { id: 10, name: "Pasta Bowl",       desc: "Penne in rich tomato & herb sauce",  price: 259, emoji: "🍝", category: "Pasta",    img: "photo-1621996346565-e3dbc646d9a9", veg: true },
   { id: 11, name: "Fresh Salad",      desc: "Garden greens with dressing",        price: 149, emoji: "🥗", category: "Salads",   img: "photo-1512621776951-a57141f2eefd", veg: true },
   { id: 12, name: "Ice Cream",        desc: "Rich sundae with chocolate sauce",   price: 99,  emoji: "🍦", category: "Desserts", img: "photo-1563805042-7684c019e1cb", veg: true },
-  { id: 13, name: "Chocolate Cake",   desc: "Rich, moist chocolate slice",        price: 149, emoji: "🍰", category: "Desserts", img: "photo-1578985545062-69928b1d9587", veg: true },
+  { id: 13, name: "Chocolate Cake",   desc: "Rich, gooey chocolate layer cake",   price: 149, emoji: "🍰", category: "Desserts", img: "photo-1578985545062-69928b1d9587", veg: true },
   { id: 14, name: "Cola",             desc: "Chilled fizzy drink",                price: 49,  emoji: "🥤", category: "Drinks",   img: "photo-1554866585-cd94860890b7", veg: true },
   { id: 15, name: "Fresh Juice",      desc: "Freshly squeezed orange juice",      price: 79,  emoji: "🧃", category: "Drinks",   img: "photo-1621506289937-a8e4df240d0b", veg: true },
   { id: 16, name: "Coffee",           desc: "Freshly brewed hot latte",           price: 69,  emoji: "☕", category: "Drinks",   img: "photo-1572442388796-11668a67e53d", veg: true },
