@@ -4,7 +4,7 @@ const menuItems = [
   { id: 2,  name: "Chicken Burger",   desc: "Crispy fried chicken with mayo",     price: 179, emoji: "🍔", category: "Burgers",  img: "photo-1606755962773-d324e0a13086", veg: false },
   { id: 3,  name: "Margherita Pizza", desc: "Fresh tomato, basil & mozzarella",   price: 329, emoji: "🍕", category: "Pizza",    img: "photo-1574071318508-1cdbab80d002", veg: true },
   { id: 4,  name: "Pepperoni Pizza",  desc: "Loaded with spicy pepperoni",        price: 399, emoji: "🍕", category: "Pizza",    img: "photo-1628840042765-356cda07504e", veg: false },
-  { id: 5,  name: "Crispy Fries",     desc: "Golden, salted & served hot",        price: 99,  emoji: "🍟", category: "Sides",    img: "photo-1573080496219-bb080dd4f877", veg: true },
+  { id: 5,  name: "Crispy Fries",     desc: "Golden, salted & served hot",        price: 99,  emoji: "🍟", category: "Sides",    img: "photo-1576107232684-1279f390859f", veg: true },
   { id: 6,  name: "Onion Rings",      desc: "Crunchy battered onion rings",       price: 119, emoji: "🧅", category: "Sides",    img: "photo-1639024471283-03518883512d", veg: true },
   { id: 7,  name: "Sushi Platter",    desc: "Assorted fresh nigiri & rolls",      price: 449, emoji: "🍣", category: "Sushi",    img: "photo-1579871494447-9811cf80d66c", veg: false },
   { id: 8,  name: "Taco Trio",        desc: "Three soft tacos with grilled meat", price: 199, emoji: "🌮", category: "Mexican",  img: "photo-1599974579688-8dbdd335c77f", veg: false },
