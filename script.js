@@ -23,6 +23,24 @@ function formatPrice(amount) {
   return "₹" + Math.round(amount).toLocaleString("en-IN");
 }
 
+// ----- Bill settings (Indian food-app style: delivery fee + GST) -----
+const DELIVERY_FEE = 30;          // flat delivery fee
+const FREE_DELIVERY_OVER = 500;   // free delivery above this order value
+const GST_RATE = 0.05;            // 5% GST
+
+function deliveryFeeFor(subtotal) {
+  if (subtotal === 0) return 0;
+  return subtotal >= FREE_DELIVERY_OVER ? 0 : DELIVERY_FEE;
+}
+function gstFor(subtotal) {
+  return Math.round(subtotal * GST_RATE);
+}
+// Grand total = items + delivery + GST
+function grandTotalNumber() {
+  const sub = cartTotalNumber();
+  return sub + deliveryFeeFor(sub) + gstFor(sub);
+}
+
 // Build an HD food photo URL from Unsplash, cropped to a consistent size
 // so every card looks uniform (the modern food-delivery-app look).
 function imageURL(item) {
@@ -99,6 +117,10 @@ const overlay    = document.getElementById("overlay");
 const cartItems  = document.getElementById("cart-items");
 const cartCount  = document.getElementById("cart-count");
 const cartTotal  = document.getElementById("cart-total");
+const billEl       = document.getElementById("bill");
+const billSubtotal = document.getElementById("bill-subtotal");
+const billDelivery = document.getElementById("bill-delivery");
+const billGst      = document.getElementById("bill-gst");
 const checkoutBtn = document.getElementById("checkout-btn");
 const modal      = document.getElementById("checkout-modal");
 const orderSummary = document.getElementById("order-summary");
@@ -330,13 +352,25 @@ function renderCart() {
     }).join("");
   }
 
-  let count = 0, total = 0;
+  let count = 0, subtotal = 0;
   ids.forEach(id => {
     count += cart[id].qty;
-    total += cart[id].qty * cart[id].item.price;
+    subtotal += cart[id].qty * cart[id].item.price;
   });
+
+  const delivery = deliveryFeeFor(subtotal);
+  const gst = gstFor(subtotal);
+  const grand = subtotal + delivery + gst;
+
   cartCount.textContent = count;
-  cartTotal.textContent = formatPrice(total);
+
+  // Show the itemised bill only when there's something in the cart
+  if (billEl) billEl.hidden = count === 0;
+  if (billSubtotal) billSubtotal.textContent = formatPrice(subtotal);
+  if (billDelivery) billDelivery.textContent = (count > 0 && delivery === 0) ? "FREE" : formatPrice(delivery);
+  if (billGst) billGst.textContent = formatPrice(gst);
+  cartTotal.textContent = formatPrice(grand);
+
   checkoutBtn.disabled = count === 0;
 }
 
@@ -361,7 +395,7 @@ function openModal() {
     .map(id => `${cart[id].qty}× ${cart[id].item.name}`)
     .join(", ");
   orderSummary.innerHTML =
-    `<strong>Order:</strong> ${lines}<br><strong>Total:</strong> ${formatPrice(cartTotalNumber())}`;
+    `<strong>Order:</strong> ${lines}<br><strong>To Pay:</strong> ${formatPrice(grandTotalNumber())} <small>(incl. delivery & GST)</small>`;
   modal.classList.add("open");
   overlay.classList.add("show");
 }
@@ -373,7 +407,7 @@ document.getElementById("modal-close").addEventListener("click", () => { closeMo
 document.getElementById("checkout-form").addEventListener("submit", e => {
   e.preventDefault();
   const name = document.getElementById("cust-name").value.trim();
-  const total = formatPrice(cartTotalNumber());
+  const total = formatPrice(grandTotalNumber());
 
   // Clear everything
   cart = {};
