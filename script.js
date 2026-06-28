@@ -78,6 +78,8 @@ function cardHTML(item) {
              onerror="this.parentElement.innerHTML='<span class=&quot;emoji-fallback&quot;>${item.emoji}</span>'">
         <span class="rating-badge">⭐ ${ratingFor(item)}</span>
         <span class="veg-badge ${item.veg ? "veg" : "nonveg"}" title="${item.veg ? "Veg" : "Non-veg"}"></span>
+        <button class="fav-btn ${isFav(item.id) ? "is-fav" : ""}" title="Save to wishlist"
+                onclick="event.stopPropagation(); toggleFav(${item.id})">${isFav(item.id) ? "❤️" : "🤍"}</button>
       </div>
       <div class="card-body">
         <h3>${item.name}</h3>
@@ -185,7 +187,8 @@ function renderMenu() {
       || (activeDiet === "veg" && item.veg)
       || (activeDiet === "nonveg" && !item.veg);
     const matchSearch = item.name.toLowerCase().includes(searchTerm.toLowerCase());
-    return matchCat && matchDiet && matchSearch;
+    const matchFav = !showFavOnly || isFav(item.id);
+    return matchCat && matchDiet && matchSearch && matchFav;
   });
   if (noResults) noResults.hidden = filtered.length > 0;
   menuGrid.innerHTML = filtered.map(cardHTML).join("");
@@ -193,7 +196,7 @@ function renderMenu() {
   // Featured row only makes sense when browsing everything — hide it while filtering
   const featuredSection = document.getElementById("featured-section");
   if (featuredSection) {
-    const browsingAll = activeCategory === "All" && activeDiet === "All" && searchTerm.trim() === "";
+    const browsingAll = activeCategory === "All" && activeDiet === "All" && searchTerm.trim() === "" && !showFavOnly;
     featuredSection.style.display = browsingAll ? "" : "none";
   }
 }
@@ -246,6 +249,7 @@ function renderDetails() {
           <button onclick="detailQtyChange(1)">+</button>
         </div>
         <button class="add-btn detail-add" onclick="detailAddToCart()">Add ${detailQty} to Cart 🛒</button>
+        <button class="detail-fav ${isFav(item.id) ? "is-fav" : ""}" onclick="toggleFav(${item.id})">${isFav(item.id) ? "❤️ Saved to wishlist" : "🤍 Save to wishlist"}</button>
       </div>
     </div>`;
 }
@@ -384,12 +388,18 @@ function closeCart() { cartEl.classList.remove("open"); overlay.classList.remove
 
 document.getElementById("cart-toggle").addEventListener("click", openCart);
 document.getElementById("cart-close").addEventListener("click", closeCart);
-overlay.addEventListener("click", () => { closeCart(); closeModal(); });
+overlay.addEventListener("click", () => { closeCart(); closeModal(); closeAuth(); });
 
 // ===================================================================
 // FEATURE 3: Checkout form
 // ===================================================================
 function openModal() {
+  // If the visitor is logged in, pre-fill their name to save typing
+  const u = currentUser();
+  if (u) {
+    const nameInput = document.getElementById("cust-name");
+    if (nameInput && !nameInput.value) nameInput.value = u.name;
+  }
   // Build the order summary shown inside the form
   const lines = Object.keys(cart)
     .map(id => `${cart[id].qty}× ${cart[id].item.name}`)
@@ -474,9 +484,177 @@ function setupReveal() {
 }
 
 // ===================================================================
+// FEATURE: Wishlist / Favourites (saved in localStorage, survives refresh)
+// ===================================================================
+function loadFavs() {
+  try { return JSON.parse(localStorage.getItem("tastyBitesFavs")) || []; }
+  catch { return []; }
+}
+let favs = loadFavs();              // array of saved dish ids
+let showFavOnly = false;            // menu page: show only wishlist items?
+
+function saveFavs() { localStorage.setItem("tastyBitesFavs", JSON.stringify(favs)); }
+function isFav(id) { return favs.includes(id); }
+
+// Add or remove a dish from the wishlist, then refresh the hearts on screen
+function toggleFav(id) {
+  if (favs.includes(id)) favs = favs.filter(f => f !== id);
+  else favs.push(id);
+  saveFavs();
+  updateFavCount();
+  renderFeatured();   // refresh hearts in the featured row
+  renderMenu();       // refresh hearts (and the wishlist view) on the menu
+  renderDetails();    // refresh the heart on the details page
+  const item = menuItems.find(m => m.id === id);
+  showToast(isFav(id)
+    ? `❤️ Saved ${item.name} to your wishlist!`
+    : `💔 Removed ${item.name} from your wishlist.`);
+}
+
+// Update the little number on the header heart button
+function updateFavCount() {
+  const el = document.getElementById("fav-count");
+  if (el) el.textContent = favs.length;
+}
+
+// Header heart button: on the menu page it toggles a "wishlist only" view;
+// on other pages it sends you to the menu showing your wishlist.
+const wishlistToggle = document.getElementById("wishlist-toggle");
+if (wishlistToggle) {
+  if (isMenuPage && new URLSearchParams(location.search).get("fav")) {
+    showFavOnly = true;
+    wishlistToggle.classList.add("active");
+  }
+  wishlistToggle.addEventListener("click", () => {
+    if (isMenuPage) {
+      showFavOnly = !showFavOnly;
+      wishlistToggle.classList.toggle("active", showFavOnly);
+      renderMenu();
+      if (showFavOnly && favs.length === 0) {
+        showToast("Your wishlist is empty — tap 🤍 on a dish to save it!");
+      }
+    } else {
+      window.location.href = "menu.html?fav=1";
+    }
+  });
+}
+
+// ===================================================================
+// FEATURE: Login / Sign-up (demo only — saved in localStorage)
+// NOTE: This is NOT real security. Passwords live in the browser and
+// are only meant for a learning/demo project — never for real users.
+// ===================================================================
+const authArea   = document.getElementById("auth-area");
+const authModal  = document.getElementById("auth-modal");
+const loginForm  = document.getElementById("login-form");
+const signupForm = document.getElementById("signup-form");
+const authTitle  = document.getElementById("auth-title");
+
+// All registered users (an array). The person currently logged in is
+// stored separately under "tastyBitesUser".
+function loadUsers() {
+  try { return JSON.parse(localStorage.getItem("tastyBitesUsers")) || []; }
+  catch { return []; }
+}
+function saveUsers(users) {
+  localStorage.setItem("tastyBitesUsers", JSON.stringify(users));
+}
+function currentUser() {
+  try { return JSON.parse(localStorage.getItem("tastyBitesUser")); }
+  catch { return null; }
+}
+
+// Header: show a greeting + Logout when signed in, otherwise a Login button
+function renderAuth() {
+  if (!authArea) return;
+  const user = currentUser();
+  if (user) {
+    authArea.innerHTML =
+      `<span class="auth-hi">👤 ${user.name.split(" ")[0]}</span>` +
+      `<button id="logout-btn" class="auth-toggle">Logout</button>`;
+    document.getElementById("logout-btn").addEventListener("click", logout);
+  } else {
+    authArea.innerHTML = `<button id="auth-toggle" class="auth-toggle">Login</button>`;
+    document.getElementById("auth-toggle").addEventListener("click", () => openAuth("login"));
+  }
+}
+
+function openAuth(mode) {
+  showAuthMode(mode);
+  authModal.classList.add("open");
+  overlay.classList.add("show");
+}
+function closeAuth() {
+  if (authModal) authModal.classList.remove("open");
+}
+// Flip between the Login form and the Sign-up form inside the same popup
+function showAuthMode(mode) {
+  const signup = mode === "signup";
+  authTitle.textContent = signup ? "Create your account" : "Login";
+  loginForm.hidden = signup;
+  signupForm.hidden = !signup;
+}
+
+function logout() {
+  localStorage.removeItem("tastyBitesUser");
+  renderAuth();
+  showToast("👋 You have been logged out.");
+}
+
+if (authModal) {
+  document.getElementById("auth-close").addEventListener("click", () => {
+    closeAuth(); overlay.classList.remove("show");
+  });
+  document.getElementById("show-signup").addEventListener("click", e => { e.preventDefault(); showAuthMode("signup"); });
+  document.getElementById("show-login").addEventListener("click", e => { e.preventDefault(); showAuthMode("login"); });
+
+  // Sign up → save the new account, then log them straight in
+  signupForm.addEventListener("submit", e => {
+    e.preventDefault();
+    const name = document.getElementById("signup-name").value.trim();
+    const email = document.getElementById("signup-email").value.trim().toLowerCase();
+    const password = document.getElementById("signup-password").value;
+
+    const users = loadUsers();
+    if (users.some(u => u.email === email)) {
+      showToast("⚠️ That email is already registered. Please log in.");
+      showAuthMode("login");
+      return;
+    }
+    users.push({ name, email, password });
+    saveUsers(users);
+    localStorage.setItem("tastyBitesUser", JSON.stringify({ name, email }));
+    signupForm.reset();
+    closeAuth(); overlay.classList.remove("show");
+    renderAuth();
+    showToast(`🎉 Welcome, ${name.split(" ")[0]}! Your account is ready.`);
+  });
+
+  // Login → check the email + password against the saved accounts
+  loginForm.addEventListener("submit", e => {
+    e.preventDefault();
+    const email = document.getElementById("login-email").value.trim().toLowerCase();
+    const password = document.getElementById("login-password").value;
+
+    const user = loadUsers().find(u => u.email === email && u.password === password);
+    if (!user) {
+      showToast("❌ Wrong email or password. Try again or sign up.");
+      return;
+    }
+    localStorage.setItem("tastyBitesUser", JSON.stringify({ name: user.name, email: user.email }));
+    loginForm.reset();
+    closeAuth(); overlay.classList.remove("show");
+    renderAuth();
+    showToast(`✅ Welcome back, ${user.name.split(" ")[0]}!`);
+  });
+}
+
+// ===================================================================
 // Start everything
 // ===================================================================
 applyTheme(localStorage.getItem("tastyBitesTheme") || "light");
+renderAuth();
+updateFavCount();
 renderCategories();
 renderFeatured();
 renderMenu();

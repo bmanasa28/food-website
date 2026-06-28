@@ -20,7 +20,9 @@
       <a href="menu.html" class="active">Menu</a>
     </nav>
     <div class="header-actions">
+      <div id="auth-area" class="auth-area"></div>
       <button id="theme-toggle" class="theme-toggle" title="Toggle dark mode">🌙</button>
+      <button id="wishlist-toggle" class="wishlist-toggle" title="Your wishlist">❤️ <span id="fav-count" class="fav-count">0</span></button>
       <button id="cart-toggle" class="cart-toggle">
         🛒 <span class="cart-label">Cart</span> <span id="cart-count" class="cart-count">0</span>
       </button>
@@ -98,6 +100,33 @@
         <label>Delivery Address<textarea id="cust-address" required rows="3" placeholder="House no, street, city"></textarea></label>
         <div class="order-summary" id="order-summary"></div>
         <button type="submit" class="place-order">Place Order ✅</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== Login / Sign-up modal ===== -->
+  <div class="modal" id="auth-modal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <h2 id="auth-title">Login</h2>
+        <button id="auth-close" class="cart-close">✕</button>
+      </div>
+
+      <!-- Login form -->
+      <form id="login-form" class="checkout-form auth-form">
+        <label>Email<input type="email" id="login-email" required placeholder="you@example.com" /></label>
+        <label>Password<input type="password" id="login-password" required placeholder="Your password" /></label>
+        <button type="submit" class="place-order">Login</button>
+        <p class="auth-switch">New here? <a href="#" id="show-signup">Create an account</a></p>
+      </form>
+
+      <!-- Sign-up form -->
+      <form id="signup-form" class="checkout-form auth-form" hidden>
+        <label>Full Name<input type="text" id="signup-name" required placeholder="manasa" /></label>
+        <label>Email<input type="email" id="signup-email" required placeholder="you@example.com" /></label>
+        <label>Password<input type="password" id="signup-password" required minlength="4" placeholder="At least 4 characters" /></label>
+        <button type="submit" class="place-order">Create account ✅</button>
+        <p class="auth-switch">Already have an account? <a href="#" id="show-login">Login</a></p>
       </form>
     </div>
   </div>
