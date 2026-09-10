@@ -418,6 +418,29 @@ document.getElementById("checkout-form").addEventListener("submit", e => {
   e.preventDefault();
   const name = document.getElementById("cust-name").value.trim();
   const total = formatPrice(grandTotalNumber());
+  
+  // ---- Save this order to history ----
+  const phone = document.getElementById("cust-phone").value.trim();
+  const address = document.getElementById("cust-address").value.trim();
+
+  const order = {
+    id: "TB" + Date.now().toString().slice(-6),
+    date: new Date().toISOString(),
+    name: name,
+    phone: phone,
+    address: address,
+    items: Object.keys(cart).map(id => ({
+      name: cart[id].item.name,
+      qty: cart[id].qty,
+      price: cart[id].item.price
+    })),
+    total: total
+  };
+
+  const orders = JSON.parse(localStorage.getItem("tastyBitesOrders") || "[]");
+  orders.unshift(order);
+  localStorage.setItem("tastyBitesOrders", JSON.stringify(orders));
+  console.log("Order saved:", order);
 
   // Clear everything
   cart = {};
