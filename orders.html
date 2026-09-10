@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Orders · Tasty Bites 🍔</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="menu-page">
+
+  <section class="menu-top">
+    <h1>My Orders</h1>
+    <p>Everything you've ordered from Tasty Bites</p>
+    <p><a href="index.html">← Back to Home</a></p>
+  </section>
+
+  <section id="orders-list" style="max-width:900px;margin:0 auto;padding:24px;"></section>
+
+  <script>
+    function renderOrders() {
+      const box = document.getElementById("orders-list");
+      const orders = JSON.parse(localStorage.getItem("tastyBitesOrders") || "[]");
+
+      if (orders.length === 0) {
+        box.innerHTML = "<p>No orders yet. Go order something tasty!</p>";
+        return;
+      }
+
+      box.innerHTML = orders.map(o => {
+        const when = new Date(o.date).toLocaleString("en-IN");
+        const items = o.items
+          .map(i => `${i.qty} × ${i.name} — ₹${i.price}`)
+          .join("<br>");
+
+        return `
+          <div style="background:#fff;border-radius:16px;padding:20px;margin-bottom:16px;box-shadow:0 2px 10px rgba(0,0,0,.08);">
+            <h3>Order ${o.id}</h3>
+            <p><strong>Placed:</strong> ${when}</p>
+            <p><strong>Name:</strong> ${o.name} &nbsp; <strong>Phone:</strong> ${o.phone}</p>
+            <p><strong>Address:</strong> ${o.address}</p>
+            <p><strong>Items:</strong><br>${items}</p>
+            <p><strong>Total paid:</strong> ${o.total}</p>
+          </div>
+        `;
+      }).join("");
+    }
+
+    renderOrders();
+  </script>
+
+</body>
+</html>
