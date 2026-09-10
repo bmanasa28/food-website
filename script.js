@@ -450,7 +450,8 @@ document.getElementById("checkout-form").addEventListener("submit", e => {
   overlay.classList.remove("show");
   e.target.reset();
 
-  showToast(`🎉 Thanks, ${name}! Your ${total} order is on its way!`);
+    alert(`Order placed successfully!\n\nOrder ID: ${order.id}\nTotal: ${total}\n\nThank you, ${name}!`);
+  window.location.href = "orders.html";
 });
 
 // ===================================================================
